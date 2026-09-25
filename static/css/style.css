@@ -1,0 +1,373 @@
+/* =============================================================
+   Study with A.I. — Cyberpunk AI / Academic Student Theme
+   =============================================================
+   All colors and effects are defined as CSS variables in :root
+   so the whole theme can be re-skinned by editing one place.
+   ============================================================= */
+
+:root {
+  /* ---- Core palette (exact spec) ---- */
+  --bg-main:        #0D1117; /* Near Black */
+  --bg-card:        #161B22; /* Dark Slate */
+  --bg-terminal:    #05080C; /* Darkest Console */
+  --accent-cyan:    #06B6D4; /* Primary Accent */
+  --accent-purple:  #A855F7; /* Secondary Accent */
+  --text-bright:    #F0F6FC;
+  --text-muted:     #8B949E;
+  --success-green:  #10B981;
+  --danger-red:     #F85149; /* used for bug / error states */
+
+  /* ---- Typography ---- */
+  --font-mono: 'Fira Code', monospace;
+  --font-sans: 'Inter', sans-serif;
+
+  /* ---- Effects ---- */
+  --glow-cyan:   0 0 14px rgba(6, 182, 212, 0.55);
+  --glow-purple: 0 0 14px rgba(168, 85, 247, 0.55);
+  --radius-md:   10px;
+  --radius-pill: 999px;
+  --border-soft: 1px solid rgba(139, 148, 158, 0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-main);
+  color: var(--text-bright);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  /* subtle neon glow "ambient light" in two corners */
+  background-image:
+    radial-gradient(circle at 12% 8%,  rgba(6, 182, 212, 0.07), transparent 35%),
+    radial-gradient(circle at 88% 92%, rgba(168, 85, 247, 0.07), transparent 35%);
+  background-attachment: fixed;
+}
+
+/* =============================================================
+   HEADER
+   ============================================================= */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px 32px;
+  border-bottom: var(--border-soft);
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+.logo-bracket { color: var(--accent-cyan); }
+
+/* Pill-shaped nav tabs with glowing active state */
+.pill-nav {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-card);
+  border: var(--border-soft);
+  border-radius: var(--radius-pill);
+}
+
+.pill-tab {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.pill-tab:hover { color: var(--text-bright); }
+
+.pill-tab.active {
+  background: var(--accent-cyan);
+  color: #05080C;
+  box-shadow: var(--glow-cyan);
+}
+
+/* =============================================================
+   WORKSPACE LAYOUT (2-column grid)
+   ============================================================= */
+.workspace {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tool-panel { display: none; }
+.tool-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.panel-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =============================================================
+   CARDS / PANELS
+   ============================================================= */
+.card {
+  background: var(--bg-card);
+  border: var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.card-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+/* =============================================================
+   BADGES (language tags, quiz/status indicators)
+   ============================================================= */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(139, 148, 158, 0.15);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.badge-lang    { background: rgba(6, 182, 212, 0.15);  color: var(--accent-cyan); }
+.badge-purple  { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+.badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success-green); }
+.badge-error   { background: rgba(248, 81, 73, 0.15);  color: var(--danger-red); }
+
+/* =============================================================
+   FORM CONTROLS
+   ============================================================= */
+.control-row { margin-bottom: 14px; }
+
+.control-row label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.select-input {
+  width: 100%;
+  background: var(--bg-terminal);
+  color: var(--text-bright);
+  border: 1px solid rgba(139, 148, 158, 0.25);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.select-input:focus { outline: none; border-color: var(--accent-cyan); }
+
+/* =============================================================
+   CODE EDITOR / TERMINAL CONSOLE
+   ============================================================= */
+.code-editor {
+  width: 100%;
+  min-height: 260px;
+  background: var(--bg-terminal);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  border: 1px solid rgba(139, 148, 158, 0.25);
+  border-radius: 8px;
+  padding: 16px;
+  resize: vertical;
+  margin-bottom: 16px;
+}
+
+.code-editor:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.notes-editor { color: var(--text-bright); min-height: 320px; }
+
+.terminal {
+  background: var(--bg-terminal);
+  border: 1px solid rgba(139, 148, 158, 0.25);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 260px;
+  max-height: 480px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.terminal-hint { color: var(--text-muted); }
+
+.terminal pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-bright);
+}
+
+.terminal-section-title {
+  color: var(--accent-cyan);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  margin: 14px 0 6px;
+}
+.terminal-section-title:first-child { margin-top: 0; }
+
+.bug-item { color: var(--danger-red); margin-bottom: 4px; }
+.bug-item::before { content: "✗ "; }
+
+/* =============================================================
+   SUMMARY BOX
+   ============================================================= */
+.summary-box {
+  background: var(--bg-terminal);
+  border: 1px solid rgba(139, 148, 158, 0.25);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 120px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-bright);
+}
+
+/* =============================================================
+   NEON ACTION BUTTONS
+   ============================================================= */
+.btn-neon {
+  width: 100%;
+  background: transparent;
+  color: var(--accent-cyan);
+  border: 1.5px solid var(--accent-cyan);
+  border-radius: var(--radius-pill);
+  padding: 12px 20px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-neon:hover {
+  background: var(--accent-cyan);
+  color: #05080C;
+  box-shadow: var(--glow-cyan);
+  transform: translateY(-1px);
+}
+
+.btn-neon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-purple { color: var(--accent-purple); border-color: var(--accent-purple); }
+.btn-purple:hover {
+  background: var(--accent-purple);
+  color: #05080C;
+  box-shadow: var(--glow-purple);
+}
+
+/* =============================================================
+   MCQ QUIZ
+   ============================================================= */
+.quiz-question {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(139, 148, 158, 0.12);
+}
+.quiz-question:last-child { border-bottom: none; margin-bottom: 16px; }
+
+.quiz-question-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(139, 148, 158, 0.25);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quiz-option:hover { border-color: var(--accent-cyan); }
+
+.quiz-option.selected {
+  border-color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.08);
+}
+
+.quiz-option.correct {
+  border-color: var(--success-green);
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success-green);
+}
+
+.quiz-option.incorrect {
+  border-color: var(--danger-red);
+  background: rgba(248, 81, 73, 0.12);
+  color: var(--danger-red);
+}
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border-top: var(--border-soft);
+}
+
+/* =============================================================
+   RESPONSIVE
+   ============================================================= */
+@media (max-width: 900px) {
+  .workspace-grid { grid-template-columns: 1fr; }
+  .app-header { flex-direction: column; align-items: flex-start; }
+  .workspace { padding: 20px; }
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study with A.I. | AI-Powered Study Companion</title>
+
+  <!-- Google Fonts: Fira Code for code, Inter for UI text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER — logo + pill-shaped navigation tabs
+       ============================================================ -->
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-bracket">&lt;</span>Study with A.I.<span class="logo-bracket">/&gt;</span>
+    </div>
+
+    <nav class="pill-nav" id="pillNav">
+      <button class="pill-tab active" data-target="debugger-panel" type="button">Code Debugger</button>
+      <button class="pill-tab" data-target="summarizer-panel" type="button">Summarizer &amp; MCQ</button>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       MAIN WORKSPACE
+       ============================================================ -->
+  <main class="workspace">
+
+    <!-- ---------------- FEATURE 1: AI CODE DEBUGGER ---------------- -->
+    <section id="debugger-panel" class="tool-panel active">
+      <div class="workspace-grid">
+
+        <!-- LEFT COLUMN: input controls -->
+        <div class="panel-column input-column">
+          <div class="card">
+            <div class="card-header">
+              <h2>Input Code</h2>
+              <span class="badge badge-lang" id="langBadge">PYTHON</span>
+            </div>
+
+            <div class="control-row">
+              <label for="languageSelect">Language</label>
+              <select id="languageSelect" class="select-input">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="c">C</option>
+                <option value="javascript">JavaScript</option>
+              </select>
+            </div>
+
+            <div class="control-row">
+              <label for="sampleSelect">Load a sample snippet</label>
+              <select id="sampleSelect" class="select-input">
+                <option value="">-- Select a sample --</option>
+              </select>
+            </div>
+
+            <textarea
+              id="codeInput"
+              class="code-editor"
+              spellcheck="false"
+              placeholder="// Paste your Python, Java, C, or JavaScript code here..."
+            ></textarea>
+
+            <button id="debugBtn" class="btn-neon" type="button">
+              <span class="btn-icon">⚡</span> Debug My Code
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: terminal-style AI output -->
+        <div class="panel-column output-column">
+          <div class="card terminal-card">
+            <div class="card-header">
+              <h2>AI Analysis Console</h2>
+              <span class="badge" id="debugStatusBadge">IDLE</span>
+            </div>
+
+            <div class="terminal" id="debugTerminal">
+              <p class="terminal-hint">$ Waiting for code submission...</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ---------------- FEATURE 2: SUMMARIZER + MCQ ---------------- -->
+    <section id="summarizer-panel" class="tool-panel">
+      <div class="workspace-grid">
+
+        <!-- LEFT COLUMN: notes input -->
+        <div class="panel-column input-column">
+          <div class="card">
+            <div class="card-header">
+              <h2>Study Notes</h2>
+            </div>
+
+            <textarea
+              id="notesInput"
+              class="code-editor notes-editor"
+              spellcheck="true"
+              placeholder="Paste your topic notes or a textbook paragraph here..."
+            ></textarea>
+
+            <button id="summarizeBtn" class="btn-neon btn-purple" type="button">
+              <span class="btn-icon">✨</span> Summarize &amp; Generate Quiz
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: summary + interactive MCQ quiz -->
+        <div class="panel-column output-column">
+          <div class="card">
+            <div class="card-header">
+              <h2>Summary</h2>
+              <span class="badge" id="summaryStatusBadge">IDLE</span>
+            </div>
+            <div class="summary-box" id="summaryBox">
+              <p class="terminal-hint">Your AI-generated summary will appear here...</p>
+            </div>
+          </div>
+
+          <div class="card" id="quizCard" style="display:none;">
+            <div class="card-header">
+              <h2>Quick Quiz</h2>
+              <span class="badge badge-purple" id="quizScoreBadge">0 / 5</span>
+            </div>
+            <div id="quizContainer"></div>
+            <button id="submitQuizBtn" class="btn-neon" type="button">Check Answers</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Study with A.I. &mdash; B.Sc. IT College Project &mdash; Flask + Gemini/OpenAI</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
